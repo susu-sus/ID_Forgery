@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ID Forgery Risk Report</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="home-page">
+
+<div class="main-wrapper">
+
+    <div class="container">
+
+        <!-- 🔥 NEW PROFESSIONAL HEADER -->
+        <h1 class="title">ID Forgery Risk Report</h1>
+        <p class="subtitle">AI-powered document authenticity analysis</p>
+
+        <form action="/predict" method="POST" enctype="multipart/form-data">
+
+            <!-- UPLOAD BOX -->
+            <div class="upload-box" id="uploadBox">
+                <div class="upload-content">
+                    
+                    <div class="icon">☁️</div>
+
+                    <p class="main-text">Upload ID Document</p>
+                    <p class="sub-text">Supported: JPG, PNG, JPEG</p>
+
+                    
+
+                    <input type="file" name="file" accept=".jpg,.jpeg,.png" id="fileInput" hidden>
+
+                    <button type="button" onclick="openFile()" class="browse-btn">
+                        Browse File
+                    </button>
+
+                    
+                </div>
+            </div>
+
+            <!-- PREVIEW -->
+            <div class="file-preview" id="filePreview" style="display:none;">
+                <span id="fileName"></span>
+                <span class="delete" onclick="removeFile()">🗑️</span>
+            </div>
+
+            <!-- ERROR -->
+            <p id="errorMsg" class="error-text"></p>
+
+            <!-- SUBMIT -->
+            <button class="submit-btn" type="submit">
+                Analyze Document
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Document Validation</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 30px;
+}
+
+.card {
+    background: #1e293b;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.result {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.real { color: #22c55e; }
+.fake { color: #ef4444; }
+.suspicious { color: #f59e0b; }
+
+.circle {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    border: 10px solid #3b82f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin: auto;
+}
+
+.grid {
+    display: flex;
+    justify-content: space-around;
+}
+
+ul {
+    padding-left: 20px;
+}
+
+.btn {
+    background: #3b82f6;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Forgery Report</h1>
+
+<div class="card">
+    <img src="{{ url_for('uploaded_file', filename=filename) }}">
+</div>
+
+<div class="card">
+    {% if report.prediction == "Real" %}
+        <div class="result real">✅ REAL</div>
+    {% elif report.prediction == "Fake" %}
+        <div class="result fake">❌ FAKE</div>
+    {% else %}
+        <div class="result suspicious">⚠️ SUSPICIOUS</div>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h3>Confidence</h3>
+    <div class="circle">{{ report.confidence }}%</div>
+</div>
+
+<div class="card">
+    <h3>Model Scores</h3>
+    <div class="grid">
+        <div>
+            <h4>Fake</h4>
+            <p>{{ report.fake_score }}%</p>
+        </div>
+        <div>
+            <h4>Real</h4>
+            <p>{{ report.real_score }}%</p>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>Image Features</h3>
+    <ul>
+        <li>Blur: {{ report.features.blur }}</li>
+        <li>Edges: {{ report.features.edges }}</li>
+        <li>Brightness: {{ report.features.brightness }}</li>
+        <li>Faces: {{ report.features.faces }}</li>
+    </ul>
+</div>
+
+<div class="card">
+    <h3>Detected Issues</h3>
+    <ul>
+        {% for issue in report.issues %}
+            <li>{{ issue }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="card">
+    <h3>Extracted Text</h3>
+    <p>{{ report.text }}</p>
+</div>
+
+<button class="btn" onclick="window.location.href='/'">⬅ Back</button>
+
+</div>
+
+</body>
+</html>
